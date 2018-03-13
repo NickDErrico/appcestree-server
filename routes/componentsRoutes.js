@@ -19,7 +19,14 @@ router.get('/:id', function(req, res) {
 router.post('/', function(req, res) {
   knex('components')
     .insert(req.body, '*')
-    .then(newComponent => res.json(newComponent))
+    .then(newComponent => {
+      knex('parent_child_component')
+        .insert({
+          parent_id: req.body.parent_id,
+          child_id: newComponent.id
+        })
+        .then(() => res.send(newComponent))
+    })
 })
 
 router.patch('/:id', function(req, res) {
