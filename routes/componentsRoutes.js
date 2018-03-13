@@ -3,35 +3,35 @@ const router = express.Router();
 const knex = require('../db/knex');
 
 router.get('/', function(req, res, next) {
-  knex('projects')
+  knex('components')
     .select()
     .orderBy('id', 'asc')
-    .then(projects => res.json(projects))
+    .then(components => res.json(components))
 })
 
 router.get('/:id', function(req, res) {
-  knex('projects')
+  knex('components')
     .select()
     .where('id', req.params.id)
-    .then(project => res.json(project))
+    .then(component => res.json(component))
 })
 
 router.post('/', function(req, res) {
-  knex('projects')
+  knex('components')
     .insert(req.body, '*')
-    .then(newProject => res.json(newProject))
+    .then(newComponent => res.json(newComponent))
 })
 
 router.patch('/:id', function(req, res) {
-  knex('projects')
+  knex('components')
     .update(req.body)
     .where('id', req.params.id)
     .returning('*')
-    .then(updatedProject => res.json(updatedProject))
+    .then(updatedComponent => res.json(updatedComponent))
 })
 
 router.delete('/:id', function(req, res) {
-  knex('projects')
+  knex('components')
     .del()
     .where('id', req.params.id)
     .then(removedProject => removedProject)
