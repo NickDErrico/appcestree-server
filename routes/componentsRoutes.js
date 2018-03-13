@@ -10,10 +10,18 @@ router.get('/', function(req, res, next) {
 })
 
 router.get('/:id', function(req, res) {
-  knex('components')
-    .select()
-    .where('id', req.params.id)
-    .then(component => res.json(component))
+  knex('parent_child_component')
+    .select('components.*')
+    .innerJoin('components', 'parent_child_component.child_id', 'components.id')
+    .where('parent_id', req.params.id)
+    .then(childComponents => {
+      let component = {
+          parentId: req.params.id,
+          childComponents
+      }
+      console.log('childComponents', childComponents)
+      res.json(component)
+    })
 })
 
 router.post('/', function(req, res) {
