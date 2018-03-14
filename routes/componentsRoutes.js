@@ -6,7 +6,7 @@ router.get('/', function(req, res, next) {
   knex('components')
     .select()
     .orderBy('id', 'asc')
-    .then(components => res.json(components))
+    .then(components => res.send(components))
 })
 
 router.get('/:id', function(req, res) {
