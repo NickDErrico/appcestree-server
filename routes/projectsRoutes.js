@@ -11,10 +11,63 @@ router.get('/', function(req, res, next) {
 
 router.get('/:id', function(req, res) {
   knex('projects')
-    .select()
     .where('id', req.params.id)
-    .then(project => res.json(project))
+    .then(project => {
+      knex('components')
+        .where('project_id', req.params.id)
+        .then(results => {
+          knex('parent_child_component')
+            .select('components.*', 'parent_child_component.child_id', 'parent_child_component.parent_id')
+            .innerJoin('components', 'parent_child_component.child_id', 'components.id')
+            .then(components => {
+              const doingstuff = (arr) => {
+
+              }
+              res.json({
+                project,
+                components
+              })
+            })
+        })
+    })
+
+/*
+{
+  projectDetails: {
+    ...
+  },
+  components: {
+    app: {
+      name: '...',
+      componentDetails,
+      children: [
+        {
+          name: '...',
+          componentDetails,
+          children: [...]
+        }
+      ]
+    }
+  }
+}
+*/
+
+  // knex('projects')
+  //   .select()
+  //   .where('id', req.params.id)
+  //   .then(project => {
+  //     knex('parent_child_component')
+  //       .where('parent_id', req.params.id)
+  //       .orWhere('child_id', req.params.id)
+  //       .select('components.*', 'parent_child_component.id', 'parent_child_component.parent_id')
+  //       .innerJoin('components', 'parent_child_component.child_id', 'components.id')
+  //       .then(results => {
+  //         res.json({ project, components: results })
+  //       })
+  //   })
 })
+
+
 
 router.post('/', function(req, res) {
   knex('projects')
