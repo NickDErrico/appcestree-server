@@ -34,9 +34,7 @@ router.get('/:id', function(req, res) {
                   if(indx == components.length-1){
                     return components;
                   }
-
                   return topLevel(components, indx+1);
-
 
                   function botLevel(curArr, i){
                     if(i==curArr.length){
@@ -46,20 +44,16 @@ router.get('/:id', function(req, res) {
                       curArr[i].children.push(components[indx]);
                       return;
                     }
-
                     if(curArr[i].children.length>0){
                       botLevel(curArr[i].children,0);
                     }
                     botLevel(curArr, i+1);
                   }
                 }
-
                 return topLevel(baseComponents, 0);
               }
               let returnData = alterDataTree(baseComponents)
-              res.json({
-                returnData
-              })
+              res.json(returnData)
             })
         })
     })
