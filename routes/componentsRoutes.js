@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
     .select()
     .orderBy('id', 'asc')
     .then(components => res.send(components))
-})
+});
 
 router.get('/:id', function(req, res) {
   knex('parent_child_component')
@@ -22,7 +22,7 @@ router.get('/:id', function(req, res) {
       console.log('childComponents', childComponents)
       res.json(component)
     })
-})
+});
 
 router.post('/', function(req, res) {
   knex('components')
@@ -35,7 +35,7 @@ router.post('/', function(req, res) {
         })
         .then(() => res.send(newComponent))
     })
-})
+});
 
 router.patch('/:id', function(req, res) {
   knex('components')
@@ -43,13 +43,13 @@ router.patch('/:id', function(req, res) {
     .where('id', req.params.id)
     .returning('*')
     .then(updatedComponent => res.json(updatedComponent))
-})
+});
 
 router.delete('/:id', function(req, res) {
   knex('components')
     .del()
     .where('id', req.params.id)
     .then(removedProject => removedProject)
-})
+});
 
 module.exports = router

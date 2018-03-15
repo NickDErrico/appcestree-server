@@ -7,20 +7,20 @@ router.get('/', function(req, res, next) {
     .select()
     .orderBy('id', 'asc')
     .then(users => res.json(users))
-})
+});
 
 router.get('/:id', function(req, res) {
   knex('users')
     .select()
     .where('id', req.params.id)
     .then(user => res.json(user))
-})
+});
 
 router.post('/', function(req, res) {
   knex('users')
     .insert(req.body, '*')
     .then(newUser => res.json(newUser))
-})
+});
 
 router.patch('/:id', function(req, res) {
   knex('users')
@@ -28,13 +28,13 @@ router.patch('/:id', function(req, res) {
     .where('id', req.params.id)
     .returning('*')
     .then(updatedUser => res.json(updatedUser))
-})
+});
 
 router.delete('/:id', function(req, res) {
   knex('users')
     .del()
     .where('id', req.params.id)
     .then(removedUser => removedUser)
-})
+});
 
 module.exports = router
