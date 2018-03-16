@@ -9,6 +9,13 @@ router.get('/', function(req, res, next) {
     .then(components => res.send(components))
 });
 
+router.get('/single/:id', function(req, res) {
+  knex('components')
+    .select()
+    .where('id', req.params.id)
+    .then(components => res.json(components[0]))
+});
+
 router.get('/:id', function(req, res) {
   knex('parent_child_component')
     .select('components.*')
